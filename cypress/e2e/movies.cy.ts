@@ -35,8 +35,12 @@ describe('Mostly Mundane Movies', () => {
 				.should('exist')
 		})
 
-		it.skip('should show a loading spinner while searching for a movie', () => {
+		it('should show a loading spinner while searching for a movie', () => {
+			cy.get('.form-control')
+				.type(`The Matrix{enter}`)
 
+			cy.get('#loading-wrapper')
+				.should('be.visible')
 		})
 
 		it.skip('should be able to click on the first movie after a successful search and the page you are directed to should match the ID of the movie', () => {
