@@ -7,7 +7,7 @@ describe('Mostly Mundane Movies', () => {
 
 		it('should not be able to search for movies without a title', () => {
 			cy.get('[type="submit"]')
-				.click()
+				.type(`{enter}`)
 
 			cy.get('.alert')
 				.should('be.visible')
@@ -64,12 +64,12 @@ describe('Mostly Mundane Movies', () => {
 		})
 	})
 
-	context.only('unhappy path', () => {
+	context('unhappy path', () => {
 		beforeEach(() => {
 			cy.visit('/')
 		})
 
-		it.skip('should search for "Isaks Memes" and expect not to get any hits', () => {
+		it('should search for "Isaks Memes" and expect not to get any hits', () => {
 			cy.get('.form-control')
 				.type(`Isaks Memes{enter}`)
 
@@ -80,12 +80,21 @@ describe('Mostly Mundane Movies', () => {
 			cy.get(':nth.child').should('not.exist')
 		})
 
-		it.skip('should search for "the postman always rings twice" and expect the request to make a timeout', () => {
+		it('should search for "the postman always rings twice" and expect the request to make a timeout', () => {
 			cy.get('.form-control')
 				.type(`the postman always rings twice{enter}`)
+
+			cy.get('.alert')
+				.should('be.visible')
+
+			cy.get('.alert-heading')
+				.contains('👀')
+
+			cy.get('p')
+				.contains('Does he, really?')
 		})
 
-		it.skip('should show an error message when entering the url for the movie with id "tt1337"', () => {
+		it('should show an error message when entering the url for the movie with id "tt1337"', () => {
 			cy.visit('/movies/tt1337')
 
 			cy.get('.alert')
