@@ -64,13 +64,20 @@ describe('Mostly Mundane Movies', () => {
 		})
 	})
 
-	context('unhappy path', () => {
+	context.only('unhappy path', () => {
 		beforeEach(() => {
 			cy.visit('/')
 		})
 
-		it.skip('should search for "Isaks Memes" and expect not to get any hits', () => {
+		it('should search for "Isaks Memes" and expect not to get any hits', () => {
+			cy.get('.form-control')
+				.type(`Isaks Memes{enter}`)
 
+			cy.get('.alert')
+				.should('be.visible')
+				.contains('Movie not found!')
+
+			cy.get(':nth.child').should('not.exist')
 		})
 
 		it.skip('should search for "the postman always rings twice" and expect the request to make a timeout', () => {
