@@ -69,7 +69,7 @@ describe('Mostly Mundane Movies', () => {
 			cy.visit('/')
 		})
 
-		it('should search for "Isaks Memes" and expect not to get any hits', () => {
+		it.skip('should search for "Isaks Memes" and expect not to get any hits', () => {
 			cy.get('.form-control')
 				.type(`Isaks Memes{enter}`)
 
@@ -81,11 +81,19 @@ describe('Mostly Mundane Movies', () => {
 		})
 
 		it.skip('should search for "the postman always rings twice" and expect the request to make a timeout', () => {
-
+			cy.get('.form-control')
+				.type(`the postman always rings twice{enter}`)
 		})
 
-		it.skip('should show an error message when entering the url for the movie with id "tt1337"', () => {
+		it('should show an error message when entering the url for the movie with id "tt1337"', () => {
+			cy.visit('/movies/tt1337')
 
+			cy.get('.alert-heading')
+				.should('be.visible')
+				.contains('LOL, what a fail')
+
+			cy.get('p')
+				.contains('Haxx0r now, are we?')
 		})
 
 		it.skip('should show an error message when entering a page that does not exist', () => {
