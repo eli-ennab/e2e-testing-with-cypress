@@ -14,8 +14,13 @@ describe('Mostly Mundane Movies', () => {
 				.contains('You tried to search, good for you! 👀')
 		})
 
-		it.skip('should not be able to search without a title less than 3 chars', () => {
+		it('should not be able to search without a title less than 3 chars', () => {
+			cy.get('.form-control')
+				.type(`it{enter}`)
 
+			cy.get('.alert')
+				.should('be.visible')
+				.contains('Search query must be at least 3 characters long, duh ^^ 🙄')
 		})
 
 		it.skip('should be able to search for the The Matrix and find X number of movies', () => {
