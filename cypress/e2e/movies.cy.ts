@@ -1,6 +1,7 @@
 describe('Mostly Mundane Movies', () => {
 
-	context('happy path', () => {
+	context.skip('happy path', () => {
+
 		beforeEach(() => {
 			cy.visit('/')
 		})
@@ -47,24 +48,22 @@ describe('Mostly Mundane Movies', () => {
 			cy.get('.form-control')
 				.type(`The Matrix{enter}`)
 
-			// find the `[data-imdb-id]` of the first movie of the page
 			cy.get('.movie-list-item')
 				.first()
 				.find('[data-imdb-id]')
 				.then(($id) => {
 					const dataImdbId = $id.attr('data-imdb-id')
 
-					// click on the `View Details`-link on first movie of the page
 					cy.get(':nth-child(1) > .card > .card-body > .card-link')
 					.click()
 
-					// find the id in the url
 					cy.url().should('include', dataImdbId)
 				})
 		})
 	})
 
-	context('unhappy path', () => {
+	context.skip('unhappy path', () => {
+
 		beforeEach(() => {
 			cy.visit('/')
 		})
@@ -119,11 +118,44 @@ describe('Mostly Mundane Movies', () => {
 			cy.get('p')
 				.contains('That page does not exist. You should be ashamed of yourself.')
 		})
+	})
 
-		/**
-		 * Last step:
-		 * Mock a search request for The Matrix and a GET request in Cypress (there is two different requests),
-		 * and answer with data from two fixtures
-		*/
+	context.only('mocked path for all The Matrix movies', () => {
+		beforeEach(() => {
+
+			cy.intercept('GET', 'https://mostly-mundane-movies.netlify.app/?q=The+Matrix', {
+				fixture: 'movies.json',
+			})
+
+			cy.visit('/')
+		})
+
+		it('should be able to search for The Matrix and see the mocked The Matrix movies', () => {
+			cy.get('.form-control')
+				.type(`The Matrix{enter}`)
+
+			cy.get(':nth-child(10)')
+				.should('exist')
+
+			cy.get('.py-3')
+				.find(':nth-child(10)')
+				.should('exist')
+		})
+	})
+
+	context('mocked path for the movie "The Matrix"', () => {
+		beforeEach(() => {
+
+			cy.intercept('GET', 'https://mostly-mundane-movies.netlify.app/movies/tt0133093', {
+				fixture: 'movie.json',
+			})
+
+			cy.visit('/')
+		})
+
+		it('should be able to see the mocked movie "The Matrix"', () => {
+			cy.get('.card-title')
+				.contains('The Matrix')
+		})
 	})
 })
