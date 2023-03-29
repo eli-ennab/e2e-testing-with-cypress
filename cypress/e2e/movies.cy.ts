@@ -63,4 +63,32 @@ describe('Mostly Mundane Movies', () => {
 				})
 		})
 	})
+
+	context('unhappy path', () => {
+		beforeEach(() => {
+			cy.visit('/')
+		})
+
+		it.skip('should search for "Isaks Memes" and expect not to get any hits', () => {
+
+		})
+
+		it.skip('should search for "the postman always rings twice" and expect the request to make a timeout', () => {
+
+		})
+
+		it.skip('should show an error message when entering the url for the movie with id "tt1337"', () => {
+
+		})
+
+		it.skip('should show an error message when entering a page that does not exist', () => {
+
+		})
+
+		/**
+		 * Last step:
+		 * Mock a search request for The Matrix and a GET request in Cypress (there is two different requests),
+		 * and answer with data from two fixtures
+		*/
+	})
 })
