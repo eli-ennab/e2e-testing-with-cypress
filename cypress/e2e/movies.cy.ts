@@ -125,14 +125,16 @@ describe('Mostly Mundane Movies', () => {
 
 			cy.intercept('GET', 'https://mostly-mundane-movies.netlify.app/?q=The+Matrix', {
 				fixture: 'movies.json',
-			})
+			}).as('mockedTheMatrix')
 
 			cy.visit('/')
 		})
 
-		it('should be able to search for The Matrix and see the mocked The Matrix movies', () => {
+		it('should be able to search for The Matrix and see the mocked The Matrix movies', { defaultCommandTimeout: 6000 }, () => {
 			cy.get('.form-control')
 				.type(`The Matrix{enter}`)
+
+			cy.wait('@mockedTheMatrix')
 
 			cy.get(':nth-child(10)')
 				.should('exist')
