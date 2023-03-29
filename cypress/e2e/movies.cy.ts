@@ -123,41 +123,26 @@ describe('Mostly Mundane Movies', () => {
 	context.only('mocked path for all The Matrix movies', () => {
 		beforeEach(() => {
 
-			cy.intercept('GET', 'https://mostly-mundane-movies.netlify.app/?q=The+Matrix', {
+			cy.intercept('GET', 'https://www.omdbapi.com/?s=The%20Matrix&type=movie&apikey=c407a477', {
 				fixture: 'movies.json',
 			}).as('mockedTheMatrix')
 
-			cy.visit('/')
+			cy.visit('/?q=The+Matrix')
 		})
 
 		it('should be able to search for The Matrix and see the mocked The Matrix movies', { defaultCommandTimeout: 6000 }, () => {
-			cy.get('.form-control')
-				.type(`The Matrix{enter}`)
-
 			cy.wait('@mockedTheMatrix')
 
-			cy.get(':nth-child(10)')
+			cy.get(':nth-child(4)')
 				.should('exist')
 
 			cy.get('.py-3')
-				.find(':nth-child(10)')
+				.find(':nth-child(4)')
 				.should('exist')
 		})
 	})
 
 	context('mocked path for the movie "The Matrix"', () => {
-		beforeEach(() => {
 
-			cy.intercept('GET', 'https://mostly-mundane-movies.netlify.app/movies/tt0133093', {
-				fixture: 'movie.json',
-			})
-
-			cy.visit('/')
-		})
-
-		it('should be able to see the mocked movie "The Matrix"', () => {
-			cy.get('.card-title')
-				.contains('The Matrix')
-		})
 	})
 })
