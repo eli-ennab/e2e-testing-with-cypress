@@ -1,6 +1,6 @@
 describe('Mostly Mundane Movies', () => {
 
-	context.skip('happy path', () => {
+	context('happy path', () => {
 
 		beforeEach(() => {
 			cy.visit('/')
@@ -62,7 +62,7 @@ describe('Mostly Mundane Movies', () => {
 		})
 	})
 
-	context.skip('unhappy path', () => {
+	context('unhappy path', () => {
 
 		beforeEach(() => {
 			cy.visit('/')
@@ -120,7 +120,7 @@ describe('Mostly Mundane Movies', () => {
 		})
 	})
 
-	context.only('mocked path for all The Matrix movies', () => {
+	context('mocked path for all The Matrix movies', () => {
 		beforeEach(() => {
 
 			cy.intercept('GET', 'https://www.omdbapi.com/?s=The%20Matrix&type=movie&apikey=c407a477', {
