@@ -1,6 +1,6 @@
 describe('Mostly Mundane Movies', () => {
 
-	context('initial state', () => {
+	context('happy path', () => {
 		beforeEach(() => {
 			cy.visit('/')
 		})
@@ -43,9 +43,24 @@ describe('Mostly Mundane Movies', () => {
 				.should('be.visible')
 		})
 
-		it.skip('should be able to click on the first movie after a successful search and the page you are directed to should match the ID of the movie', () => {
+		it('should be able to click on the first movie after a successful search and the page you are directed to should match the ID of the movie', () => {
+			cy.get('.form-control')
+				.type(`The Matrix{enter}`)
 
+			// find the `[data-imdb-id]` of the first movie of the page
+			cy.get('.movie-list-item')
+				.first()
+				.find('[data-imdb-id]')
+				.then(($id) => {
+					const dataImdbId = $id.attr('data-imdb-id')
+
+					// click on the `View Details`-link on first movie of the page
+					cy.get(':nth-child(1) > .card > .card-body > .card-link')
+					.click()
+
+					// find the id in the url
+					cy.url().should('include', dataImdbId)
+				})
 		})
-
 	})
 })
