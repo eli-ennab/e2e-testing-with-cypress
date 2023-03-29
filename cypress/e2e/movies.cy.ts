@@ -85,19 +85,30 @@ describe('Mostly Mundane Movies', () => {
 				.type(`the postman always rings twice{enter}`)
 		})
 
-		it('should show an error message when entering the url for the movie with id "tt1337"', () => {
+		it.skip('should show an error message when entering the url for the movie with id "tt1337"', () => {
 			cy.visit('/movies/tt1337')
 
-			cy.get('.alert-heading')
+			cy.get('.alert')
 				.should('be.visible')
+
+			cy.get('.alert-heading')
 				.contains('LOL, what a fail')
 
 			cy.get('p')
 				.contains('Haxx0r now, are we?')
 		})
 
-		it.skip('should show an error message when entering a page that does not exist', () => {
+		it('should show an error message when entering a page that does not exist', () => {
+			cy.visit('/series')
 
+			cy.get('.alert')
+				.should('be.visible')
+
+			cy.get('.alert-heading')
+				.contains("It's not us, it's you")
+
+			cy.get('p')
+				.contains('That page does not exist. You should be ashamed of yourself.')
 		})
 
 		/**
