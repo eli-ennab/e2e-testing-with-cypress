@@ -143,6 +143,20 @@ describe('Mostly Mundane Movies', () => {
 	})
 
 	context('mocked path for the movie "The Matrix"', () => {
+		beforeEach(() => {
 
+			cy.intercept('GET', 'https://www.omdbapi.com/?i=tt0133093&apikey=c407a477', {
+				fixture: 'movie.json',
+			}).as('mockedTheMatrix')
+
+			cy.visit('/movies/tt0133093')
+		})
+
+		it('should be able to see the mocked movie The Matrix', { defaultCommandTimeout: 6000 }, () => {
+			cy.wait('@mockedTheMatrix')
+
+			cy.get('.card-title')
+				.contains('The Mocked Matrix')
+		})
 	})
 })
