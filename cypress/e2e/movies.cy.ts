@@ -58,9 +58,10 @@ describe('Mostly Mundane Movies', () => {
 					const dataImdbId = $id.attr('data-imdb-id')
 
 					cy.get(':nth-child(1) > .card > .card-body > .card-link')
-					.click()
+						.click()
 
-					cy.url().should('include', dataImdbId)
+					cy.url()
+						.should('include', dataImdbId)
 				})
 		})
 	})
@@ -79,7 +80,8 @@ describe('Mostly Mundane Movies', () => {
 				.should('be.visible')
 				.contains('Movie not found!')
 
-			cy.get(':nth.child').should('not.exist')
+			cy.get(':nth.child')
+				.should('not.exist')
 		})
 
 		it('should search for "the postman always rings twice" and expect the request to make a timeout', () => {
