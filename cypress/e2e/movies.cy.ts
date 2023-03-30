@@ -6,9 +6,12 @@ describe('Mostly Mundane Movies', () => {
 			cy.visit('/')
 		})
 
-		it('should not be able to search for movies without a title', () => {
+		it.only('should not be able to search for movies without a title', () => {
 			cy.get('[type="submit"]')
 				.type(`{enter}`)
+
+			cy.get('[type="submit"]')
+				.click()
 
 			cy.get('.alert')
 				.should('be.visible')
