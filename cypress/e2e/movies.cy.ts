@@ -16,6 +16,8 @@ describe('Mostly Mundane Movies', () => {
 			cy.get('.alert')
 				.should('be.visible')
 				.contains('You tried to search, good for you! 👀')
+
+			cy.location('pathname').should('eq', '/')
 		})
 
 		it('should not be able to search without a title less than 3 chars', () => {
@@ -25,6 +27,8 @@ describe('Mostly Mundane Movies', () => {
 			cy.get('.alert')
 				.should('be.visible')
 				.contains('Search query must be at least 3 characters long, duh ^^ 🙄')
+
+			cy.location('pathname').should('eq', '/')
 		})
 
 		it('should be able to search for the The Matrix and get at least 10 movies', () => {
@@ -62,6 +66,8 @@ describe('Mostly Mundane Movies', () => {
 
 					cy.url()
 						.should('include', dataImdbId)
+
+					cy.location('pathname').should('eq', `/movies/${dataImdbId}`)
 				})
 		})
 	})
@@ -84,7 +90,7 @@ describe('Mostly Mundane Movies', () => {
 				.should('not.exist')
 		})
 
-		it('should search for "the postman always rings twice" and expect the request to make a timeout', () => {
+		it('should search for "the postman always rings twice" and expect an error message', () => {
 			cy.get('.form-control')
 				.type(`the postman always rings twice{enter}`)
 
@@ -109,6 +115,8 @@ describe('Mostly Mundane Movies', () => {
 
 			cy.get('p')
 				.contains('Haxx0r now, are we?')
+
+			cy.location('pathname').should('eq', '/movies/tt1337')
 		})
 
 		it('should show an error message when entering a page that does not exist', () => {
@@ -118,7 +126,7 @@ describe('Mostly Mundane Movies', () => {
 				.should('be.visible')
 
 			cy.get('.alert-heading')
-				.contains("It's not us, it's you")
+				.contains('It\'s not us, it\'s you')
 
 			cy.get('p')
 				.contains('That page does not exist. You should be ashamed of yourself.')
